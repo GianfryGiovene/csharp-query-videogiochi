@@ -91,20 +91,35 @@
 -- 
 -- ```
 -- 1- Selezionare i dati di tutti giocatori che hanno scritto almeno una recensione, mostrandoli una sola volta (996)
--- 
+
+-- SELECT players.nickname FROM players INNER JOIN reviews ON reviews.player_id = players.id GROUP BY players.nickname;
+
 -- 2- Sezionare tutti i videogame dei tornei tenuti nel 2016, mostrandoli una sola volta (226)
--- 
+
+-- SELECT DISTINCT videogames.name FROM videogames LEFT JOIN tournament_videogame ON tournament_videogame.videogame_id = videogames.id LEFT JOIN  tournaments ON tournaments.id = tournament_videogame.tournament_id WHERE tournaments.year >'2015' AND tournaments.year < '2017';
+
 -- 3- Mostrare le categorie di ogni videogioco
 -- SELECT v.id AS videogame_id, v.name AS videogame_name, v.release_date, c.id AS category_id, c.name AS category_name (1718)
+
+-- SELECT videogames.id AS videogame_id, videogames.name AS videogame_name, videogames.release_date, categories.id AS category_id, categories.name AS category_name FROM videogames LEFT JOIN category_videogame ON category_videogame.videogame_id = videogames.id LEFT JOIN categories ON categories.id = category_videogame.category_id
+
 -- 
 -- 4- Selezionare i dati di tutte le software house che hanno rilasciato almeno un gioco dopo il 2020, mostrandoli una sola volta (6)
--- 
+
+-- SELECT DISTINCT software_houses.name as softwareHouse_name FROM software_houses LEFT JOIN videogames ON videogames.software_house_id = software_houses.id WHERE videogames.release_date > '31/12/2020';
+
 -- 5- Selezionare i premi ricevuti da ogni software house per i videogiochi che ha prodotto (55)
--- 
+
+-- SELECT software_houses.name AS sh_name, awards.name AS rewards_name FROM software_houses INNER JOIN videogames ON videogames.software_house_id = software_houses.id INNER JOIN award_videogame ON award_videogame.videogame_id = videogames.id INNER JOIN awards ON awards.id = award_videogame.award_id ; 
+
 -- 6- Selezionare categorie e classificazioni PEGI dei videogiochi che hanno ricevuto recensioni da 4 e 5 stelle, mostrandole una sola volta (3363)
--- 
+
+-- SELECT DISTINCT categories.name AS cat_name , pegi_labels.name AS pegi_name, videogames.name FROM videogames LEFT JOIN category_videogame ON category_videogame.videogame_id = videogames.id LEFT JOIN categories ON categories.id = category_videogame.category_id LEFT JOIN pegi_label_videogame ON pegi_label_videogame.videogame_id = category_videogame.videogame_id LEFT JOIN pegi_labels ON pegi_labels.id = pegi_label_videogame.pegi_label_id LEFT JOIN reviews ON reviews.videogame_id = videogames.id WHERE reviews.rating = 4 OR  reviews.rating = 5
+
 -- 7- Selezionare quali giochi erano presenti nei tornei nei quali hanno partecipato i giocatori il cui nome inizia per 'S' (474)
+
 -- 
+
 -- 8- Selezionare le città in cui è stato giocato il gioco dell'anno del 2018 (36)
 -- 
 -- 9- Selezionare i giocatori che hanno giocato al gioco più atteso del 2018 in un torneo del 2019 (3306)
